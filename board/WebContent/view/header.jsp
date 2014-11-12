@@ -9,6 +9,7 @@
 		%>
 		<div id="userInfo">
 			<h1><%=userInfo.getUserName()%>님 환영합니다</h1>
+			<a href="/board/logout.do">로그아웃</a>
 		</div>		
 		<%
 	}else{

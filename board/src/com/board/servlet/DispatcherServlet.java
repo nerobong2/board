@@ -48,7 +48,7 @@ public class DispatcherServlet extends HttpServlet{
 		
 		if(processResult.startsWith("foward:")){
 			
-			System.out.println(processResult.split(":")[1] + "fowarding");
+			System.out.println(processResult.split(":")[1] + " -- > fowarding");
 			RequestDispatcher rd = request.getRequestDispatcher(processResult.split(":")[1]);
 			
 			rd.forward(request, response);
@@ -56,7 +56,7 @@ public class DispatcherServlet extends HttpServlet{
 			
 		}else{
 			//다른페이지로 전환시
-			System.out.println(contextPath+"/"+processResult.split(":")[1] + "sendRedirect");
+			System.out.println(contextPath+"/"+processResult.split(":")[1] + " -- > sendRedirect");
 			response.sendRedirect(contextPath+"/"+processResult.split(":")[1]);
 			
 		}
