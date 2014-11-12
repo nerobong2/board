@@ -51,6 +51,7 @@
 	
 		id : <input type="text" name="userId" id="userId"><br>
 		pw : <input type="password" name="userPassword" id="userPassword"><br>
+		이름 : <input type="text" name="userName" id="userName"><br>
 		pw확인 : <input type="password" id="rePassword"><br>
 		
 		<input type="submit"value="회원가입"><input type="button" value="취소" onclick="moveMainPage()">

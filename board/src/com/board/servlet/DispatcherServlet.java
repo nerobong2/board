@@ -26,7 +26,7 @@ public class DispatcherServlet extends HttpServlet{
 		ServletContext ctx = request.getServletContext();
 		HttpSession session  = request.getSession();
 		
-		model.put("ctx", ctx);
+		
 		model.put("session", session);
 		model.put("request", request);
 		model.put("response", response);
@@ -44,14 +44,20 @@ public class DispatcherServlet extends HttpServlet{
 		
 		String processResult = pageUrl.excute(model);
 		
+		
+		
 		if(processResult.startsWith("foward:")){
 			
+			System.out.println(processResult.split(":")[1] + "fowarding");
 			RequestDispatcher rd = request.getRequestDispatcher(processResult.split(":")[1]);
 			
 			rd.forward(request, response);
 			
-		}else{
 			
+		}else{
+			//다른페이지로 전환시
+			System.out.println(contextPath+"/"+processResult.split(":")[1] + "sendRedirect");
+			response.sendRedirect(contextPath+"/"+processResult.split(":")[1]);
 			
 		}
 		

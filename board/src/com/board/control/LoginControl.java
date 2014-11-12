@@ -27,28 +27,30 @@ public class LoginControl implements PageControl{
 	@Override
 	public String excute(HashMap<String,Object> model) {
 		// TODO Auto-generated method stub
-		System.out.println("LoginControl...");
+		
 		HttpServletRequest request = (HttpServletRequest)model.get("request");
-		HttpSession		   session = (HttpSession)model.get("session");
+		HttpSession		session    = (HttpSession)model.get("session");
+		User			user       = new User().setUserId(request.getParameter("userId"))
+												.setUserPassword(request.getParameter("userPassword"));
 		
-		String userId = (String)request.getParameter("userId");
-		String userPassword = (String)request.getParameter("userPassword");
-		User user = new User().setUserId(userId).setUserPassword(userPassword);
+		HashMap<String,Object> resultMap = userDao.userLogin(user);
 		
-		
-		Boolean result = userDao.loginValidationCheck(user);
-		
-		if(result){
-			System.out.println(result);
-			User userInfo = userDao.getUserInfo(user);
-			session.setAttribute("userInfo", userInfo);
+		if(resultMap != null){
 			
+			session.setAttribute("userInfo", (User)resultMap.get("userInfo"));
+			//게시글 리스트는 항상보여줘야 하므로 모든 리퀘스트에 처리 해주어야한다.
+			ArrayList<Board> boardList = (ArrayList<Board>)boardDao.getBoardList();
+			
+			request.setAttribute("boardList", boardList);
+			
+			return "foward:view/main.jsp";
+			
+		}else{
+			
+			return "sendRedirect:view/error.jsp";
 		}
 		
-		ArrayList<Board> boardList = (ArrayList<Board>)boardDao.getBoardList();
-		request.setAttribute("boardList", boardList);
 		
-		return "foward:view/main.jsp";
 	}
 
 }
