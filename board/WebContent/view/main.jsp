@@ -24,9 +24,17 @@
 <jsp:include page="header.jsp"></jsp:include>
 <%
 	ArrayList<Board> boardList = (ArrayList<Board>)request.getAttribute("boardList");
+	User userInfo			   = (User)session.getAttribute("userInfo");
 %>
 
 	<table border="1">
+		<tr>
+			<td>번호</td>
+			<td>제목</td>
+			<td>작성자</td>
+			<td>일시</td>
+		</tr>
+		
 	<%
 		
 		if(boardList.size() > 0){
@@ -34,7 +42,7 @@
 				%>
 				<tr>
 					<td><%=board.getBoardNo() %></td>
-					<td><%=board.getBoardSubject() %></td>
+					<td><a href="/board/view.do?boardNo=<%=board.getBoardNo() %>"><%=board.getBoardSubject() %></a></td>
 					<td><%=board.getWriterName() %></td>
 					<td><%=board.getRegDate() %></td>
 				</tr>
@@ -47,6 +55,15 @@
 		
 	%>
 	</table>
+	<%
+	if(userInfo != null){
+		%>
+		
+		<a href="/board/view/boardWriteForm.jsp">글쓰기</a><br>
+		
+		<%
+	}
+	%>
 
 
 <jsp:include page="footer.jsp"></jsp:include>

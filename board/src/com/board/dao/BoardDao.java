@@ -18,7 +18,7 @@ public class BoardDao {
 		this.connPool = connPool;
 		
 	}
-
+	//게시글 전체 불러오기
 	public ArrayList<Board> getBoardList() {
 		
 		Connection conn 		= null;
@@ -59,5 +59,43 @@ public class BoardDao {
 		
 		return boardList;
 		
+	}
+	//게시글 상세보기
+	public Board getBoard(int boardNo) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = " select t1.boardNo, t1.boardSubject, t1.regDate,t1.boardContent, t2.userName "
+				+ " from  board t1, user t2"
+				+ " where t1.writerNo = t2.userNo"
+				+ " and t1.boardNo = ?";
+		
+		try{
+			
+			conn 	= connPool.getConnection();
+			pstmt 	= conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rs 		= pstmt.executeQuery();
+			
+			while(rs.next()){
+				Board board = new Board().setBoardNo(rs.getInt("boardNo"))
+										.setBoardSubject(rs.getString("boardSubject"))
+										.setWriterName(rs.getString("userName"))
+										.setBoardContent(rs.getString("boardContent"))
+										.setRegDate(rs.getDate("regDate"));
+						
+				return board;
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+		}
+		
+		return null;
 	}
 }
