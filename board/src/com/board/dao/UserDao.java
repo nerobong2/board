@@ -18,13 +18,13 @@ public class UserDao {
 	}
 	//회원 가입 여부 확인
 	
-	public Boolean isSignUp(User user) {
+	public User isSignUp(User user) {
 		
 		Connection 			conn = null;
 		PreparedStatement 	pstmt = null;
 		ResultSet 			rs     = null;
 		
-		String 				sql = " select userNo from user"
+		String 				sql = " select * from user"
 								+ " where userId = ?";
 			try{
 				
@@ -34,7 +34,13 @@ public class UserDao {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()){
-					return false;
+					
+					user.setUserNo(rs.getInt("userNo"))
+						.setUserId(rs.getString("userId"))
+						.setUserName(rs.getString("userName"))
+						.setUserPassword(rs.getString("userPassword"))
+						.setRegDate(rs.getDate("regDate"));
+					
 				}
 				
 			
@@ -46,7 +52,7 @@ public class UserDao {
 				try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
 			}
 		
-		return true;
+		return user;
 	}
 	//회원 가입 기능
 	public void userSignUp(User user) {
@@ -79,6 +85,7 @@ public class UserDao {
 				
 			}catch(Exception e){
 				
+				e.printStackTrace();
 			}
 		}
 		
@@ -86,14 +93,14 @@ public class UserDao {
 		
 	}
 	//로그인 기능 
-	public HashMap<String,Object> userLogin(User user) {
+	public User userLogin(User user) {
 		
 		
 		Connection 			conn = null;
 		PreparedStatement 	pstmt = null;
 		ResultSet 			rs     = null;
-		HashMap<String,Object> resultMap = new HashMap<String,Object>();
-		int i = 1;
+		
+		
 		
 		String 				sql = " select * from user"
 								+ " where userId = ? and userPassword = ? ";
@@ -108,16 +115,13 @@ public class UserDao {
 				
 				while(rs.next()){
 					
-					User userInfo = new User().setUserNo(rs.getInt("userNo"))
+					user.setUserNo(rs.getInt("userNo"))
 							.setUserId(rs.getString("userId"))
 							.setUserName(rs.getString("userName"))
 							.setUserPassword(rs.getString("userPassword"))
 							.setRegDate(rs.getDate("regDate"));
 					
-					resultMap.put("userInfo", userInfo);
-					resultMap.put("isLogin", true);
-					System.out.println(i++);
-					break;
+					
 				}
 				
 			
@@ -130,7 +134,7 @@ public class UserDao {
 			}
 		
 			
-		return resultMap;
+		return user;
 	}
 	
 }

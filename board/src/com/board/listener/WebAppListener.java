@@ -9,6 +9,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.board.control.BoardViewControl;
+import com.board.control.BoardWriteControl;
 import com.board.control.LoginControl;
 import com.board.control.LogoutControl;
 import com.board.control.MainControl;
@@ -74,6 +75,8 @@ public class WebAppListener implements ServletContextListener{
 		ctx.setAttribute("main.do", new MainControl().setDao(userDao,boardDao));
 		ctx.setAttribute("logout.do", new LogoutControl().setDao(userDao,boardDao));
 		ctx.setAttribute("view.do", new BoardViewControl().setDao(userDao,boardDao));
+		ctx.setAttribute("write.do", new BoardWriteControl().setDao(userDao,boardDao));
+		
 	}
 
 }

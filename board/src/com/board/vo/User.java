@@ -45,6 +45,12 @@ public class User {
 		this.regDate = regDate;
 		return this;
 	}
+	@Override
+	public String toString() {
+		return "User [userNo=" + userNo + ", userName=" + userName
+				+ ", userId=" + userId + ", userPassword=" + userPassword
+				+ ", regDate=" + regDate + "]";
+	}
 	
 	
 }

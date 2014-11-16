@@ -31,10 +31,7 @@ public class MainControl implements PageControl{
 		System.out.println("mainControl...");
 		
 		//게시글 리스트는 항상보여줘야 하므로 모든 리퀘스트에 처리 해주어야한다.
-		ArrayList<Board> boardList = (ArrayList<Board>)boardDao.getBoardList();
-		
-		HttpServletRequest request = (HttpServletRequest)model.get("request");
-		request.setAttribute("boardList", boardList);
+		model.put("boardList", (ArrayList<Board>)boardDao.getBoardList());
 		
 		return "foward:view/main.jsp";
 	}

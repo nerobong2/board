@@ -28,12 +28,15 @@ public class LogoutControl implements PageControl{
 		
 		System.out.println("LogoutControl...");
 		
+		//세션 초기화
 		HttpSession session = (HttpSession)model.get("session");
 		session.invalidate();
-		ArrayList<Board> boardList = (ArrayList<Board>)boardDao.getBoardList();
 		
-		HttpServletRequest request = (HttpServletRequest)model.get("request");
-		request.setAttribute("boardList", boardList);
+		
+		//게시글 리스트는 항상보여줘야 하므로 모든 리퀘스트에 처리 해주어야한다.
+		model.put("boardList", (ArrayList<Board>)boardDao.getBoardList());
+		
+		
 		
 		return "foward:view/main.jsp";
 		

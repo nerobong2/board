@@ -50,7 +50,7 @@ public class BoardDao {
 			
 			
 		}catch(Exception e){
-			
+			e.printStackTrace();
 			
 			
 		}finally{
@@ -61,7 +61,7 @@ public class BoardDao {
 		
 	}
 	//게시글 상세보기
-	public Board getBoard(int boardNo) {
+	public Board getBoard(Board board) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -76,18 +76,18 @@ public class BoardDao {
 			
 			conn 	= connPool.getConnection();
 			pstmt 	= conn.prepareStatement(sql);
-			pstmt.setInt(1, boardNo);
+			pstmt.setInt(1, board.getBoardNo());
 			
 			rs 		= pstmt.executeQuery();
 			
 			while(rs.next()){
-				Board board = new Board().setBoardNo(rs.getInt("boardNo"))
+				board = new Board().setBoardNo(rs.getInt("boardNo"))
 										.setBoardSubject(rs.getString("boardSubject"))
 										.setWriterName(rs.getString("userName"))
 										.setBoardContent(rs.getString("boardContent"))
 										.setRegDate(rs.getDate("regDate"));
 						
-				return board;
+				
 			}
 			
 		}catch(Exception e){
@@ -96,6 +96,35 @@ public class BoardDao {
 			try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
 		}
 		
-		return null;
+		return board;
+	}
+	public void writeBoard(Board board) {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		System.out.println(board.toString());
+		
+		String query = " insert into Board(boardSubject,boardContent,writerNo,regDate)"
+				 	 + " values(?,?,?,now())";
+		
+		try{
+			
+			conn = connPool.getConnection();
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, board.getBoardSubject());
+			pstmt.setString(2, board.getBoardContent());
+			pstmt.setInt(3, board.getWriterNo());
+			pstmt.execute();
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			
+		}finally{
+			try{pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+		}
+		
+		
 	}
 }

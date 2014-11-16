@@ -6,6 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+
+.viewDiv{
+
+width : 100%;
+margin-top: 20px;
+height: 10%;
+
+}
+
+
+
+</style>
 </head>
 <body>
 <%
@@ -19,12 +32,12 @@
 	if(board != null){
 	%>
 		<div>
-		<input id="boardNo" value=<%=board.getBoardNo()%> readonly="readonly"><br>
+		<input type="text" class="viewDiv"id="boardNo" value=<%=board.getBoardNo()%> readonly="readonly"><br>
 		
-		<input id="boardSubject" value=<%=board.getBoardSubject()%> readonly="readonly"><br>
-		<input id="boardContent" value=<%=board.getBoardContent()%> readonly="readonly"><br>
-		<input id="boardWriterName" value=<%=board.getWriterName()%> readonly="readonly"><br>
-		<input id="boardRegDate"	value=<%=board.getRegDate()%> readonly="readonly">
+		<input type="text" class="viewDiv" id="boardSubject" value=<%=board.getBoardSubject()%> readonly="readonly"><br>
+		<textarea class="viewDiv" id="boardContent" readonly="readonly"><%=board.getBoardContent()%></textarea><br>
+		<input type="text" class="viewDiv" id="boardWriterName" value=<%=board.getWriterName()%> readonly="readonly"><br>
+		<input class="viewDiv" id="boardRegDate"	value=<%=board.getRegDate()%> readonly="readonly">
 		
 	</div>
 	<%
