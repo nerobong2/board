@@ -3,6 +3,8 @@ package com.board.servlet;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import com.board.control.DataBinding;
 import com.board.control.PageControl;
 import com.board.control.ServletRequestDataBinder;
+import com.board.listener.ApplicationContext;
+import com.board.listener.WebAppListener;
 
 @SuppressWarnings("serial")
 public class DispatcherServlet extends HttpServlet{
@@ -25,7 +29,8 @@ public class DispatcherServlet extends HttpServlet{
 		
 		HashMap<String,Object> model = new HashMap<String,Object>();
 		
-		ServletContext ctx = request.getServletContext();
+		ApplicationContext ctx = new WebAppListener().getApplicationContext();
+		//ServletContext ctx = request.getServletContext();
 		HttpSession session  = request.getSession();
 		
 		
@@ -37,13 +42,11 @@ public class DispatcherServlet extends HttpServlet{
 		String contextPath = request.getContextPath();
 		String servletPath		= request.getServletPath();
 		
-		System.out.println(requestUrl);
-		System.out.println(contextPath);
-		System.out.println(servletPath);
-		
 		String controlInfo = servletPath.split("/")[1];
 		
-		PageControl pageUrl = (PageControl) ctx.getAttribute(controlInfo);
+		System.out.println("요청 url : " + controlInfo);
+		
+		PageControl pageUrl = (PageControl) ctx.getBean(controlInfo);
 		
 		
 		//1.데이터를 필요로 하는지에 대한 여부를 판단하여 실행.

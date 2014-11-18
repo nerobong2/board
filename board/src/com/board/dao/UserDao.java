@@ -5,16 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import javax.sql.DataSource;
+
 import com.board.db.DBConnectionPool;
 import com.board.vo.User;
 
 public class UserDao {
 	
-	DBConnectionPool connPool;
-	public UserDao(DBConnectionPool connPool) {
-		System.out.println("UserDao()...");
-		this.connPool = connPool;
-		
+	
+	DataSource ds;
+	
+	
+	//DBConnectionPool connPool;
+	public void setDataSource(DataSource ds) {
+		this.ds = ds;
 	}
 	//회원 가입 여부 확인
 	
@@ -28,7 +32,7 @@ public class UserDao {
 								+ " where userId = ?";
 			try{
 				
-				conn  = connPool.getConnection();
+				conn  = ds.getConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, user.getUserId());
 				rs = pstmt.executeQuery();
@@ -49,7 +53,7 @@ public class UserDao {
 				e.printStackTrace();
 			}finally{
 				
-				try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+				try{rs.close();pstmt.close();conn.close();}catch(Exception e){}
 			}
 		
 		return user;
@@ -64,7 +68,7 @@ public class UserDao {
 								 +" values (?,?,?,now())";
 		try{
 			
-			conn  = connPool.getConnection();
+			conn  = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, user.getUserId());
@@ -79,14 +83,7 @@ public class UserDao {
 			e.printStackTrace();
 		}finally{
 			
-			try{
-				
-				pstmt.close();connPool.returnConnection(conn);
-				
-			}catch(Exception e){
-				
-				e.printStackTrace();
-			}
+			try{pstmt.close();conn.close();}catch(Exception e){}
 		}
 		
 			
@@ -106,7 +103,7 @@ public class UserDao {
 								+ " where userId = ? and userPassword = ? ";
 			try{
 				
-				conn  = connPool.getConnection();
+				conn  = ds.getConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, user.getUserId());
 				pstmt.setString(2, user.getUserPassword());
@@ -130,7 +127,7 @@ public class UserDao {
 				e.printStackTrace();
 			}finally{
 				
-				try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+				try{rs.close();pstmt.close();conn.close();}catch(Exception e){}
 			}
 		
 			

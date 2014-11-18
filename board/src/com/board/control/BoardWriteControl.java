@@ -16,13 +16,16 @@ public class BoardWriteControl implements PageControl , DataBinding{
 	BoardDao boardDao;
 	
 	
-	public BoardWriteControl setDao(UserDao userDao,BoardDao boardDao){
+	public BoardWriteControl setUserDao(UserDao userDao){
 		
 		this.userDao = userDao;
-		this.boardDao = boardDao;
-		
 		return this;
 	}
+	public BoardWriteControl setBoardDao(BoardDao boardDao){
+		this.boardDao = boardDao;
+		return this;
+	}
+	
 	@Override
 	public Object[] getDataBinders() {
 		return new Object[]{"board",com.board.vo.Board.class};

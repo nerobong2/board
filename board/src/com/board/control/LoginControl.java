@@ -16,13 +16,14 @@ public class LoginControl implements PageControl, DataBinding{
 	UserDao userDao;
 	BoardDao boardDao;
 	
-	public LoginControl setDao(UserDao userDao,BoardDao boardDao){
+	public LoginControl setUserDao(UserDao userDao){
 		
 		this.userDao = userDao;
-		this.boardDao = boardDao;
-		
 		return this;
-		
+	}
+	public LoginControl setBoardDao(BoardDao boardDao){
+		this.boardDao = boardDao;
+		return this;
 	}
 	
 	@Override

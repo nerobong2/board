@@ -15,11 +15,13 @@ public class BoardViewControl implements PageControl , DataBinding{
 	BoardDao boardDao;
 	
 	
-	public BoardViewControl setDao(UserDao userDao,BoardDao boardDao){
+	public BoardViewControl setUserDao(UserDao userDao){
 		
 		this.userDao = userDao;
+		return this;
+	}
+	public BoardViewControl setBoardDao(BoardDao boardDao){
 		this.boardDao = boardDao;
-		
 		return this;
 	}
 	@Override

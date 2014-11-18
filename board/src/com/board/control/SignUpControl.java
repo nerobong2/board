@@ -15,11 +15,13 @@ public class SignUpControl implements PageControl, DataBinding{
 	BoardDao boardDao;
 	
 	
-	public SignUpControl setDao(UserDao userDao,BoardDao boardDao){
+	public SignUpControl setUserDao(UserDao userDao){
 		
 		this.userDao = userDao;
+		return this;
+	}
+	public SignUpControl setBoardDao(BoardDao boardDao){
 		this.boardDao = boardDao;
-		
 		return this;
 	}
 	

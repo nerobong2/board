@@ -15,13 +15,14 @@ public class LogoutControl implements PageControl{
 	UserDao userDao;
 	BoardDao boardDao;
 	
-	public LogoutControl setDao(UserDao userDao,BoardDao boardDao){
+	public LogoutControl setUserDao(UserDao userDao){
 		
 		this.userDao = userDao;
-		this.boardDao = boardDao;
-		
 		return this;
-		
+	}
+	public LogoutControl setBoardDao(BoardDao boardDao){
+		this.boardDao = boardDao;
+		return this;
 	}
 	@Override
 	public String excute(HashMap<String, Object> model) {

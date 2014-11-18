@@ -16,11 +16,13 @@ public class MainControl implements PageControl{
 	BoardDao boardDao;
 	
 	
-	public MainControl setDao(UserDao userDao,BoardDao boardDao){
+	public MainControl setUserDao(UserDao userDao){
 		
 		this.userDao = userDao;
+		return this;
+	}
+	public MainControl setBoardDao(BoardDao boardDao){
 		this.boardDao = boardDao;
-		
 		return this;
 	}
 

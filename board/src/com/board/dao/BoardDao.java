@@ -5,18 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
+
 import com.board.db.DBConnectionPool;
 import com.board.vo.Board;
 
 
 public class BoardDao {
 
-	DBConnectionPool connPool;
-	
-	public BoardDao(DBConnectionPool connPool) {
-		System.out.println("BoardDao()...");
-		this.connPool = connPool;
-		
+	//DBConnectionPool connPool;
+	DataSource ds;
+	public void setDataSource(DataSource ds) {
+		this.ds = ds;
 	}
 	//게시글 전체 불러오기
 	public ArrayList<Board> getBoardList() {
@@ -34,7 +34,7 @@ public class BoardDao {
 		
 		try{
 			
-			conn 	= connPool.getConnection();
+			conn 	= ds.getConnection();
 			pstmt 	= conn.prepareStatement(sql);
 			rs 		= pstmt.executeQuery();
 			
@@ -54,7 +54,7 @@ public class BoardDao {
 			
 			
 		}finally{
-			try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+			try{rs.close();pstmt.close();conn.close();}catch(Exception e){}
 		}
 		
 		return boardList;
@@ -74,7 +74,7 @@ public class BoardDao {
 		
 		try{
 			
-			conn 	= connPool.getConnection();
+			conn 	= ds.getConnection();
 			pstmt 	= conn.prepareStatement(sql);
 			pstmt.setInt(1, board.getBoardNo());
 			
@@ -93,7 +93,7 @@ public class BoardDao {
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
-			try{rs.close();pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+			try{rs.close();pstmt.close();conn.close();}catch(Exception e){}
 		}
 		
 		return board;
@@ -110,7 +110,7 @@ public class BoardDao {
 		
 		try{
 			
-			conn = connPool.getConnection();
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, board.getBoardSubject());
 			pstmt.setString(2, board.getBoardContent());
@@ -122,7 +122,7 @@ public class BoardDao {
 			e.printStackTrace();
 			
 		}finally{
-			try{pstmt.close();connPool.returnConnection(conn);}catch(Exception e){}
+			try{pstmt.close();conn.close();}catch(Exception e){}
 		}
 		
 		
